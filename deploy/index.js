@@ -16,14 +16,15 @@ exports.start = function (branchName) {
   var committerName = 'Swara Server Webhook';
   var committerEmail = 'swara.app@gmail.com';
 
-  var setupGitIdentity = function (callback) {
-    var command = 'git config --global user.email "' + committerEmail + '" && git config --global user.name "' + committerName + '"';
+  var setupGitConfig = function (callback) {
+    var command = 'git config --global push.default simple && git config --global user.email "' + committerEmail +
+      '" && git config --global user.name "' + committerName + '"';
     var cmd = exec(command, {}, function (error) {
       if (error) {
-        debug('Error in setupGitIdentity:cp:exec : %s', error);
+        debug('Error in setupGitConfig:cp:exec : %s', error);
         throw error;
       }
-      debug('done setting up the git identity');
+      debug('done setting up the git configurations...');
       callback();
     });
     cmd.stdout.pipe(process.stdout);
@@ -58,7 +59,7 @@ exports.start = function (branchName) {
                     debug('Error in git:add the modified branch file: %s', err);
                     throw err;
                   } else {
-                    setupGitIdentity(function () {
+                    setupGitConfig(function () {
                       repo.commit(util.format('updated to %s', branchName), {author : committerName + ' <' + committerEmail + '>'}, function (err) {
                         if (err) {
                           debug('Error in git:commit the modified branch file: %s', err);
