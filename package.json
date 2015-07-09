@@ -1,0 +1,46 @@
+{
+  "name"           : "swara-server-webhook",
+  "version"        : "0.0.1",
+  "description"    : "A GitHub webhook that will wait on the branch with the CI-built installers to publish releases",
+  "private"        : true,
+  "main"           : "app.js",
+  "repository"     : {
+    "type": "git",
+    "url" : "git://github.com/swara-app/github-webhook.git"
+  },
+  "keywords"       : [
+    "webhook",
+    "swara-app",
+    "swara-server",
+    "github",
+    "deployment"
+  ],
+  "author"         : "Floyd Pink",
+  "license"        : "MIT",
+  "bugs"           : {
+    "url": "https://github.com/swara-app/github-webhook/issues"
+  },
+  "homepage"       : "https://github.com/swara-app/github-webhook",
+  "dependencies"   : {
+    "body-parser": "^1.13.2",
+    "debug"      : "^2.2.0",
+    "express"    : "^4.13.1",
+    "gift"       : "^0.6.1",
+    "jssha"      : "^2.0.1",
+    "moment"     : "^2.10.3",
+    "mongoose"   : "4.0.6",
+    "morgan"     : "^1.6.1",
+    "nodemailer" : "^1.4.0",
+    "rimraf"     : "^2.4.1"
+  },
+  "devDependencies": {
+    "grunt"               : "^0.4.5",
+    "grunt-contrib-jshint": "^0.11.2",
+    "jshint-stylish"      : "^2.0.1",
+    "load-grunt-tasks"    : "^3.2.0",
+    "time-grunt"          : "^1.2.1"
+  },
+  "engines"        : {
+    "node": "0.12.x"
+  }
+}
