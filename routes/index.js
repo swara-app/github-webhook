@@ -23,12 +23,12 @@ module.exports = function (app) {
       } else {
         var nonPushEvent = util.format('Event received (%s) is not \'push\'. We only process \'push\' events...', eventType);
         debug(nonPushEvent);
-        res.send(202, nonPushEvent);
+        res.status(202).send(nonPushEvent);
       }
     } else {
       var invalidSignature = 'Invalid request. Signature does not seem to be right...';
       debug(invalidSignature);
-      res.send(500, invalidSignature);
+      res.status(500).send(invalidSignature);
     }
   });
 

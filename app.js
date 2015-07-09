@@ -15,10 +15,13 @@ var debug = require('debug')('swara:app'),
 GLOBAL.timers = [];
 
 if (config.env === 'development') {
-  app.use(morgan({format : 'dev', immediate : true}));
+  app.use(morgan('dev', {format : 'dev', immediate : true}));
 }
 
-app.use(bodyParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended : true
+}));
 
 debug('Connecting to database connection...');
 var connection = mongoose.connect();

@@ -28,7 +28,7 @@ var helpers = {
       if (err) {
         var removeAllCommitsError = util.format('Remove all commits error: %s', err);
         debug(removeAllCommitsError);
-        res.send(500, removeAllCommitsError);
+        res.status(500).send(removeAllCommitsError);
       } else {
         debug('Commits have been removed');
       }
@@ -60,7 +60,7 @@ var helpers = {
       if (err) {
         var saveCommitError = util.format('Save commit Error: %s', err);
         debug(saveCommitError);
-        res.send(500, saveCommitError);
+        res.status(500).send(saveCommitError);
       } else {
         debug('Commit saved successfully...');
         // debug(commit);
@@ -74,7 +74,7 @@ var helpers = {
           debug('The commit is not the first in this branch... No timer scheduled');
           Commit.count({branchName : branchName}, helpers.countCommitClosure(branchName));
         }
-        res.send(200, 'Successfully processed the commit...');
+        res.status(200).send('Successfully processed the commit...');
       }
     };
   },
@@ -107,7 +107,7 @@ var helpers = {
     } else {
       var nonDeployBranch = util.format('The branch committed to is not a deploy branch. Ref is: %s', branchRef);
       debug(nonDeployBranch);
-      res.send(202, nonDeployBranch);
+      res.status(202).send(nonDeployBranch);
     }
   }
 };
