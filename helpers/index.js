@@ -81,8 +81,8 @@ var helpers = {
   processCommit           : function (commitData, res) {
     /* jshint camelcase: false */
     var branchRef = commitData.ref;
-    if ((/^refs\/heads\/deploy-/).test(branchRef)) {
-      var headCommit = commitData.head_commit;
+    var headCommit = commitData.head_commit;
+    if ((/^refs\/heads\/deploy-/).test(branchRef) && headCommit) {
       var commitMessage = headCommit.message;
 
       var branchName = branchRef.substr(11);
