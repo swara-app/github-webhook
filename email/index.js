@@ -1,7 +1,7 @@
 'use strict';
 var email = (function () {
   var nodemailer = require('nodemailer'),
-    smtpTransport = nodemailer.createTransport('SMTP', {
+    smtpTransport = nodemailer.createTransport({
       service : 'Gmail',
       auth    : {
         user : 'flickr.downloadr.webhook@gmail.com',
