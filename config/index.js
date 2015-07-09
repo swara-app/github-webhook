@@ -2,9 +2,7 @@
 
 var path = require('path'),
   rootPath = path.normalize(__dirname + '/..'),
-  env = process.env.NODE_ENV || 'development',
-  user = process.env.MONGO_USER_NAME,
-  pass = process.env.MONGO_USER_PASS;
+  env = process.env.NODE_ENV || 'development';
 
 var config = {
   development : {
@@ -35,7 +33,7 @@ var config = {
       name : 'swara-server-webhook'
     },
     port  : process.env.PORT,
-    db    : 'mongodb://' + user + ':' + pass + '@oceanic.mongohq.com:10043/app25185432'
+    db    : process.env.MONGOLAB_URI
   }
 };
 
