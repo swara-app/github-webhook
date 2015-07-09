@@ -5,12 +5,30 @@ exports.start = function (branchName) {
   var debug = require('debug')('swara:deploy'),
     email = require('../email'),
     fs = require('fs'),
+    exec = require('child_process').exec,
     git = require('gift'),
     util = require('util'),
     moment = require('moment'),
     rimraf = require('rimraf'),
     releasesRepo = util.format('https://%s:@github.com/swara-app/releases.git', process.env.SWARA_WEBHOOK_SECRET),
     cloneDir = util.format('/tmp/releasesRepo-%s', moment().format('YYYY-MM-DD-HH-mm-ss-SSS'));
+
+  var committerName = 'Swara Server Webhook';
+  var committerEmail = 'swara.app@gmail.com';
+
+  var setupGitIdentity = function (callback) {
+    var command = 'git config --global user.email "' + committerEmail + '" && git config --global user.name "' + committerName + '"';
+    var cmd = exec(command, {}, function (error) {
+      if (error) {
+        debug('Error in setupGitIdentity:cp:exec : %s', error);
+        throw error;
+      }
+      debug('done setting up the git identity');
+      callback();
+    });
+    cmd.stdout.pipe(process.stdout);
+    cmd.stderr.pipe(process.stderr);
+  };
 
   debug('About to clone the releases repo...');
 
@@ -40,29 +58,31 @@ exports.start = function (branchName) {
                     debug('Error in git:add the modified branch file: %s', err);
                     throw err;
                   } else {
-                    repo.commit(util.format('updated to %s', branchName), {author : 'Swara Server Webhook <swara.app@gmail.com>'}, function (err) {
-                      if (err) {
-                        debug('Error in git:commit the modified branch file: %s', err);
-                        throw err;
-                      } else {
-                        /* jshint camelcase: false */
-                        repo.remote_push('origin', function (err) {
-                          if (err) {
-                            debug('Error in git:push: %s', err);
-                            throw err;
-                          } else {
-                            rimraf(cloneDir, function (err) {
-                              if (err) {
-                                debug('Error in rimraf (1) cloneDir: %s', err);
-                                throw err;
-                              } else {
-                                debug('Deploy completed for branch \'%s\' at %s', branchName, moment().format());
-                                email.sendInfo(branchName);
-                              }
-                            });
-                          }
-                        });
-                      }
+                    setupGitIdentity(function () {
+                      repo.commit(util.format('updated to %s', branchName), {author : committerName + ' <' + committerEmail + '>'}, function (err) {
+                        if (err) {
+                          debug('Error in git:commit the modified branch file: %s', err);
+                          throw err;
+                        } else {
+                          /* jshint camelcase: false */
+                          repo.remote_push('origin', function (err) {
+                            if (err) {
+                              debug('Error in git:push: %s', err);
+                              throw err;
+                            } else {
+                              rimraf(cloneDir, function (err) {
+                                if (err) {
+                                  debug('Error in rimraf (1) cloneDir: %s', err);
+                                  throw err;
+                                } else {
+                                  debug('Deploy completed for branch \'%s\' at %s', branchName, moment().format());
+                                  email.sendInfo(branchName);
+                                }
+                              });
+                            }
+                          });
+                        }
+                      });
                     });
                   }
                 });
