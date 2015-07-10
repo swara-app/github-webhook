@@ -25,12 +25,12 @@ var email = (function () {
   return {
     sendAlert : function () {
       mailOptions.subject = '[swara-server] CI Deploy might have failed';
-      mailOptions.html = '<h1>Looks like one of the builds has failed to deploy</h1>';
+      mailOptions.html = '<h3>Looks like one of the builds has failed to deploy</h3>';
       sendMail();
     },
     sendInfo  : function (branchName) {
-      mailOptions.subject = '[swara-server] CI Deploy succeeded - Get ready to push to the website';
-      mailOptions.html = '<h1>Installers from the branch ' + branchName + ' will get merged to `source` branch soon. Please do a grunt deploy soon...</h1>';
+      mailOptions.subject = '[swara-server] CI Deploy succeeded - A new GitHub Release is up!';
+      mailOptions.html = '<h3>Installers from the branch <strong>' + branchName + '</strong> has been published as a new release on GitHub.</h3>';
       sendMail();
     }
   };
