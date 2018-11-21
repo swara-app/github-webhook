@@ -28,7 +28,7 @@
     "gift"       : "^0.6.1",
     "jssha"      : "^2.0.1",
     "moment"     : "^2.10.3",
-    "mongoose"   : "4.0.6",
+    "mongoose"   : "5.3.13",
     "morgan"     : "^1.6.1",
     "nodemailer" : "^1.4.0",
     "rimraf"     : "^2.4.1"
